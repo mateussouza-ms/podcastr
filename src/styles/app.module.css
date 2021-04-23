@@ -1,0 +1,7 @@
+.appWrapper {
+  display: flex;
+}
+
+.appWrapper main {
+  flex: 1;
+}
