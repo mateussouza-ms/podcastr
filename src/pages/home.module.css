@@ -1,0 +1,109 @@
+.homepage {
+  padding: 0 2rem;
+  height: calc(100vh - 4.5rem);
+  overflow-y: scroll;
+}
+
+.homepage h2 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+}
+
+.latestEpisodes ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.latestEpisodes ul li {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 1rem;
+  padding: 0.3rem 0 0.3rem 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.latestEpisodes ul li img {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1rem;
+}
+
+.latestEpisodes ul li .episodeDetails {
+  flex: 1;
+  margin-left: 1rem;
+  max-width: 73%;
+}
+
+.latestEpisodes ul li .episodeDetails a {
+  display: block;
+  color: var(--gray-800);
+  font-family: Lexend, sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1.4rem;
+}
+
+.latestEpisodes ul li .episodeDetails a:hover {
+  text-decoration: underline;
+}
+
+.latestEpisodes ul li .episodeDetails p {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.latestEpisodes ul li .episodeDetails span {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.latestEpisodes ul li .episodeDetails span:first-of-type {
+  margin-right: 0.5rem;
+  padding-right: 0.5rem;
+  position: relative;
+}
+
+.latestEpisodes ul li .episodeDetails span:first-of-type::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: #ddd;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.latestEpisodes ul li button {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 0.675rem;
+  font-size: 0;
+  transition: filter 0.2s;
+}
+
+.latestEpisodes ul li button img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.latestEpisodes ul li button:hover {
+  filter: brightness(0.95);
+}

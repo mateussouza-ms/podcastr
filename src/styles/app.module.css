@@ -4,4 +4,5 @@
 
 .appWrapper main {
   flex: 1;
+  max-width: calc(100vw - 20rem);
 }
