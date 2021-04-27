@@ -50,7 +50,11 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 </div>
 
                 <button type="button">
-                  <img src="/play-green.svg" alt="Tocar episódio" />
+                  <img
+                    src="/play-green.svg"
+                    alt="Tocar episódio"
+                    title="Tocar episódio"
+                  />
                 </button>
               </li>
             );
@@ -59,6 +63,52 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
       </section>
       <section className={styles.allEpisodes}>
         <h2>Todos os episódios</h2>
+
+        <table cellSpacing={0}>
+          <thead>
+            <tr>
+              <th colSpan={2}>PODCAST</th>
+              <th>INTEGRANTES</th>
+              <th>DATA</th>
+              <th>DURAÇÃO</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {allEpisodes.map((episode) => {
+              return (
+                <tr key={episode.id}>
+                  <td style={{ width: 65 }}>
+                    <Image
+                      src={episode.thumbnail}
+                      alt={episode.title}
+                      height={120}
+                      width={120}
+                      objectFit="cover"
+                    />
+                  </td>
+                  <td>
+                    <a href="">{episode.title}</a>
+                  </td>
+                  <td>{episode.members}</td>
+                  <td style={{ width: 90, textTransform: "capitalize" }}>
+                    {episode.publishedAt}
+                  </td>
+                  <td>{episode.durationAsString}</td>
+                  <td>
+                    <button type="button">
+                      <img
+                        src="/play-green.svg"
+                        alt="Tocar episódio"
+                        title="Tocar episódio"
+                      />
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </section>
     </div>
   );

@@ -5,8 +5,8 @@
 }
 
 .homepage h2 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
   font-size: 1.3rem;
 }
 
@@ -106,4 +106,60 @@
 
 .latestEpisodes ul li button:hover {
   filter: brightness(0.95);
+}
+
+.allEpisodes table {
+  width: 100%;
+  font: 500 Lexend, sans-serif;
+  text-align: left;
+}
+
+.allEpisodes table th {
+  border-bottom: 2px solid var(--gray-100);
+  padding: 0.75rem 0.3rem;
+  font-size: 0.75rem;
+  color: var(--gray-200);
+}
+
+.allEpisodes table td {
+  border-bottom: 2px solid var(--gray-100);
+  padding: 0.75rem 0.3rem;
+  font-size: 0.875rem;
+}
+
+.allEpisodes table td img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.65rem;
+}
+
+.allEpisodes table td a {
+  text-decoration: none;
+  color: var(--gray-800);
+  font-weight: 600;
+  line-height: 1.4rem;
+}
+
+.allEpisodes table td a:hover {
+  text-decoration: underline;
+}
+
+.allEpisodes table td button {
+  width: 2rem;
+  height: 2rem;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 0.5rem;
+  font-size: 0;
+
+  transition: filter 0.2s;
+}
+
+.allEpisodes table td button:hover {
+  filter: brightness(0.95);
+}
+
+.allEpisodes table td button img {
+  width: 1.25rem;
+  height: 1.25rem;
 }
