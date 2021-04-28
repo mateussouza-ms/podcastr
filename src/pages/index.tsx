@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { api } from "../services/api";
 import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
@@ -13,7 +14,6 @@ interface Episode {
   members: string;
   publishedAt: string;
   thumbnail: string;
-  description: string;
   url: string;
   duration: number;
   durationAsString: string;
@@ -43,7 +43,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 />
 
                 <div className={styles.episodeDetails}>
-                  <a href="">{episode.title}</a>
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
                   <p>{episode.members}</p>
                   <span>{episode.publishedAt}</span>
                   <span>{episode.durationAsString}</span>
@@ -88,7 +90,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     />
                   </td>
                   <td>
-                    <a href="">{episode.title}</a>
+                    <Link href={`/episodes/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
                   </td>
                   <td>{episode.members}</td>
                   <td style={{ width: 90, textTransform: "capitalize" }}>
@@ -132,7 +136,6 @@ export const getStaticProps: GetStaticProps = async () => {
         locale: ptBR,
       }),
       thumbnail: episode.thumbnail,
-      description: episode.description,
       url: episode.file.url,
       duration: Number(episode.file.duration),
       durationAsString: convertDurationToTimeString(
