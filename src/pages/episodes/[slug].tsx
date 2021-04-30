@@ -1,11 +1,11 @@
-import { format, parseISO } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useContext } from "react";
-import { PlayerContext } from "../../contexts/PlayerContext";
+import { format, parseISO } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+
 import { api } from "../../services/api";
+import { usePlayer } from "../../contexts/PlayerContext";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 
 import styles from "./styles.module.css";
@@ -27,7 +27,14 @@ interface EpisodeProps {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
-  const { play } = useContext(PlayerContext);
+  const {
+    play,
+    setPlayingState,
+    isPlaying,
+    episodeList,
+    currentEpisodeIndex,
+  } = usePlayer();
+  const currentEpisode = episodeList[currentEpisodeIndex];
 
   return (
     <div className={styles.episodeContainer}>
@@ -49,14 +56,34 @@ export default function Episode({ episode }: EpisodeProps) {
             height={160}
             objectFit="cover"
           />
-          <button
-            type="button"
-            onClick={() => {
-              play(episode);
-            }}
-          >
-            <img src="/play.svg" alt="Tocar episódio" title="Tocar episódio" />
-          </button>
+          {isPlaying && currentEpisode.id === episode.id ? (
+            <button
+              type="button"
+              className={styles.pauseButton}
+              onClick={() => {
+                setPlayingState(false);
+              }}
+            >
+              <img
+                src="/pause.svg"
+                alt="Pausar episódio"
+                title="Pausar episódio"
+              />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                play(episode);
+              }}
+            >
+              <img
+                src="/play.svg"
+                alt="Tocar episódio"
+                title="Tocar episódio"
+              />
+            </button>
+          )}
         </div>
 
         <header>

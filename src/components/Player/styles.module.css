@@ -127,6 +127,10 @@
   cursor: default;
 }
 
+.playerContainer footer:not(.empty) .buttons button:disabled {
+  opacity: 0.5;
+}
+
 .buttons button.playButton {
   background: var(--purple-400);
   width: 4rem;
@@ -140,4 +144,12 @@
 
 .buttons button.playButton:hover:not(:disabled) {
   filter: brightness(0.98);
+}
+
+.buttons button.isActive {
+  filter: invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+}
+
+.buttons button.isActive:hover {
+  filter: brightness(0.6) invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
 }

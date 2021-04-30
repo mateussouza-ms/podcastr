@@ -1,14 +1,14 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { api } from "../services/api";
 import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+
+import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
+import { usePlayer } from "../contexts/PlayerContext";
 
 import styles from "../styles/home.module.css";
-import { useContext } from "react";
-import { PlayerContext } from "../contexts/PlayerContext";
 
 interface Episode {
   id: string;
@@ -27,7 +27,15 @@ interface HomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { play } = useContext(PlayerContext);
+  const {
+    playList,
+    isPlaying,
+    episodeList,
+    currentEpisodeIndex,
+    setPlayingState,
+  } = usePlayer();
+  const allEpisodeList = [...latestEpisodes, ...allEpisodes];
+  const currentEpisode = episodeList[currentEpisodeIndex];
 
   return (
     <div className={styles.homepage}>
@@ -35,7 +43,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map((episode) => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -55,18 +63,34 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    play(episode);
-                  }}
-                >
-                  <img
-                    src="/play-green.svg"
-                    alt="Tocar episódio"
-                    title="Tocar episódio"
-                  />
-                </button>
+                {isPlaying && currentEpisode.id === episode.id ? (
+                  <button
+                    type="button"
+                    className={styles.pauseButton}
+                    onClick={() => {
+                      setPlayingState(false);
+                    }}
+                  >
+                    <img
+                      src="/pause.svg"
+                      alt="Pausar episódio"
+                      title="Pausar episódio"
+                    />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playList(allEpisodeList, index);
+                    }}
+                  >
+                    <img
+                      src="/play-green.svg"
+                      alt="Tocar episódio"
+                      title="Tocar episódio"
+                    />
+                  </button>
+                )}
               </li>
             );
           })}
@@ -86,7 +110,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map((episode) => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td style={{ width: 65 }}>
@@ -108,19 +132,39 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     {episode.publishedAt}
                   </td>
                   <td>{episode.durationAsString}</td>
+
                   <td>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        play(episode);
-                      }}
-                    >
-                      <img
-                        src="/play-green.svg"
-                        alt="Tocar episódio"
-                        title="Tocar episódio"
-                      />
-                    </button>
+                    {isPlaying && currentEpisode.id === episode.id ? (
+                      <button
+                        type="button"
+                        className={styles.pauseButton}
+                        onClick={() => {
+                          setPlayingState(false);
+                        }}
+                      >
+                        <img
+                          src="/pause.svg"
+                          alt="Pausar episódio"
+                          title="Pausar episódio"
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playList(
+                            allEpisodeList,
+                            index + latestEpisodes.length
+                          );
+                        }}
+                      >
+                        <img
+                          src="/play-green.svg"
+                          alt="Tocar episódio"
+                          title="Tocar episódio"
+                        />
+                      </button>
+                    )}
                   </td>
                 </tr>
               );
