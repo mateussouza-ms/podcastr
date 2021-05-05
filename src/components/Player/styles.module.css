@@ -11,6 +11,10 @@
   justify-content: space-between;
 }
 
+.playerContainer > button {
+  display: none;
+}
+
 .playerContainer header {
   display: flex;
   align-items: center;
@@ -31,11 +35,6 @@
 .currentEpisode img {
   border-radius: 1.5rem;
   height: 15rem;
-}
-
-.currentEpisode .details {
-  margin-top: 2.3rem;
-  max-height: 4rem;
 }
 
 .currentEpisode strong {
@@ -152,4 +151,213 @@
 
 .buttons button.isActive:hover {
   filter: brightness(0.6) invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+}
+
+@media (max-width: 720px) {
+  .playerContainer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    padding-top: 1rem;
+
+    transition: height 0.3s;
+  }
+
+  .playerContainer > button {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    left: 2rem;
+    background: transparent;
+    border: 0;
+    transform: rotate(-90deg);
+  }
+
+  .playerContainer .currentEpisode {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto;
+  }
+
+  .playerContainer .currentEpisode .thumbnailContainer {
+    height: 8rem;
+    width: 8rem;
+  }
+
+  .playerContainer .currentEpisode .thumbnailContainer > div {
+    height: 100%;
+    width: 100%;
+  }
+
+  .playerContainer .currentEpisode .details {
+    margin-left: 1rem;
+    align-items: center;
+    text-align: left;
+
+    width: 70%;
+  }
+
+  .playerContainer .currentEpisode .details strong {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .playerContainer footer .progress {
+    padding: 0 5rem;
+  }
+
+  .playerContainer footer .progress .slider {
+    margin: 0 0.5rem;
+  }
+
+  .playerContainer .buttons {
+    margin-top: 1rem;
+  }
+
+  .playerContainer.collapsed header,
+  .playerContainer.collapsed .progress,
+  .playerContainer.collapsed > button {
+    display: none;
+  }
+
+  .playerContainer.collapsed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 5rem;
+    padding: 0.2rem 0.5rem;
+
+    display: flex;
+    flex-direction: row;
+  }
+
+  .playerContainer.collapsed .currentEpisode {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    margin: 0;
+    margin-top: 0.2rem;
+    gap: 1rem;
+  }
+
+  .playerContainer.collapsed .currentEpisode .thumbnailContainer {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .playerContainer.collapsed .currentEpisode .thumbnailContainer img {
+    border-radius: 0.5rem;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+
+    width: 85%;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details strong {
+    display: block;
+    margin-top: 0;
+    font: 600 1rem Lexend, sans-serif;
+    line-height: 1rem;
+    max-height: 2rem;
+    max-width: 15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details span {
+    display: block;
+    margin-top: 0.3rem;
+    opacity: 0.6;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    max-width: 13rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .playerContainer.collapsed .buttons {
+    padding-right: 1rem;
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 100%;
+    margin: 0;
+    margin-left: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .playerContainer.collapsed .buttons button.playButton {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.3rem;
+    background: transparent;
+  }
+
+  .playerContainer.collapsed .emptyPlayer {
+    height: 4rem;
+    margin-top: 0.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .playerContainer .currentEpisode {
+    display: block;
+  }
+
+  .playerContainer .currentEpisode .thumbnailContainer {
+    height: 15rem;
+    width: 15rem;
+    margin: 0 auto;
+  }
+
+  .playerContainer .currentEpisode .details {
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+    margin-left: 0;
+  }
+
+  .playerContainer footer .progress {
+    padding: 0;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details {
+    width: 15rem;
+    margin-top: 0;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details strong {
+    max-width: 20rem;
+  }
+
+  .playerContainer.collapsed .currentEpisode .details span {
+    max-width: 13rem;
+  }
+
+  .playerContainer.collapsed .buttons button:not(.playButton) {
+    display: none;
+  }
 }

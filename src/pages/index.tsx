@@ -118,7 +118,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
-                  <td style={{ width: 65 }}>
+                  <td style={{ width: 65 }} className={styles.episodeThumbnail}>
                     <Image
                       src={episode.thumbnail}
                       alt={episode.title}
@@ -127,18 +127,26 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                       objectFit="cover"
                     />
                   </td>
-                  <td>
+
+                  <td className={styles.episodeTitle}>
                     <Link href={`/episodes/${episode.id}`}>
                       <a>{episode.title}</a>
                     </Link>
                   </td>
-                  <td>{episode.members}</td>
-                  <td style={{ width: 90, textTransform: "capitalize" }}>
+
+                  <td className={styles.episodeMembers}>{episode.members}</td>
+
+                  <td
+                    style={{ width: 90, textTransform: "capitalize" }}
+                    className={styles.episodePublishedAt}
+                  >
                     {episode.publishedAt}
                   </td>
-                  <td>{episode.durationAsString}</td>
+                  <td className={styles.episodeDuration}>
+                    {episode.durationAsString}
+                  </td>
 
-                  <td>
+                  <td className={styles.playControl}>
                     {isPlaying && currentEpisode.id === episode.id ? (
                       <button
                         type="button"

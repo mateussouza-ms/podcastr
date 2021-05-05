@@ -6,3 +6,9 @@
   flex: 1;
   max-width: calc(100vw - 20rem);
 }
+
+@media (max-width: 720px) {
+  .appWrapper main {
+    max-width: 100%;
+  }
+}

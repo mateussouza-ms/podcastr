@@ -28,6 +28,7 @@ export function Player() {
   const episode = episodeList[currentEpisodeIndex];
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -59,23 +60,43 @@ export function Player() {
     playNext();
   }
 
+  function togglePlayerCollapse() {
+    setIsCollapsed(!isCollapsed);
+  }
+
   return (
-    <div className={styles.playerContainer}>
+    <div
+      className={
+        styles.playerContainer + (isCollapsed ? " " + styles.collapsed : "")
+      }
+    >
+      <button type="button" onClick={togglePlayerCollapse}>
+        <img
+          src="/arrow-left.svg"
+          alt="Voltar para a página inicial"
+          title="Voltar para a página inicial"
+        />
+      </button>
+
       <header>
         <img src="/playing.svg" alt="Tocando agora" />
         <strong>Tocando agora</strong>
       </header>
 
       {episode ? (
-        <div className={styles.currentEpisode}>
-          <Image
-            src={episode.thumbnail}
-            width={592}
-            height={592}
-            objectFit="cover"
-          />
-          <strong>{episode.title}</strong>
-          <span>{episode.members}</span>
+        <div className={styles.currentEpisode} onClick={togglePlayerCollapse}>
+          <div className={styles.thumbnailContainer}>
+            <Image
+              src={episode.thumbnail}
+              width={592}
+              height={592}
+              objectFit="cover"
+            />
+          </div>
+          <div className={styles.details}>
+            <strong>{episode.title}</strong>
+            <span>{episode.members}</span>
+          </div>
         </div>
       ) : (
         <div className={styles.emptyPlayer}>
