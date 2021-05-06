@@ -1,0 +1,24 @@
+.button {
+  width: 2rem;
+  height: 2rem;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 0.5rem;
+  font-size: 0;
+
+  transition: filter 0.2s, background-color 0.2s;
+}
+
+.button:hover {
+  filter: brightness(0.95);
+}
+
+.button .buttonImage {
+  width: 70%;
+  height: 70%;
+  border-radius: 0;
+}
+
+.button.active {
+  background: var(--green-500);
+}

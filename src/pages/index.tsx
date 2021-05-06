@@ -8,6 +8,7 @@ import ptBR from "date-fns/locale/pt-BR";
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 import { usePlayer } from "../contexts/PlayerContext";
+import { EpisodeButton } from "../components/EpisodeButton";
 
 import styles from "../styles/home.module.css";
 
@@ -68,34 +69,16 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                {isPlaying && currentEpisode.id === episode.id ? (
-                  <button
-                    type="button"
-                    className={styles.pauseButton}
-                    onClick={() => {
+                <EpisodeButton
+                  episodeId={episode.id}
+                  onClick={() => {
+                    if (isPlaying && currentEpisode.id === episode.id) {
                       setPlayingState(false);
-                    }}
-                  >
-                    <img
-                      src="/pause.svg"
-                      alt="Pausar episódio"
-                      title="Pausar episódio"
-                    />
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => {
+                    } else {
                       playList(allEpisodeList, index);
-                    }}
-                  >
-                    <img
-                      src="/play-green.svg"
-                      alt="Tocar episódio"
-                      title="Tocar episódio"
-                    />
-                  </button>
-                )}
+                    }
+                  }}
+                />
               </li>
             );
           })}
@@ -147,37 +130,19 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   </td>
 
                   <td className={styles.playControl}>
-                    {isPlaying && currentEpisode.id === episode.id ? (
-                      <button
-                        type="button"
-                        className={styles.pauseButton}
-                        onClick={() => {
+                    <EpisodeButton
+                      episodeId={episode.id}
+                      onClick={() => {
+                        if (isPlaying && currentEpisode.id === episode.id) {
                           setPlayingState(false);
-                        }}
-                      >
-                        <img
-                          src="/pause.svg"
-                          alt="Pausar episódio"
-                          title="Pausar episódio"
-                        />
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => {
+                        } else {
                           playList(
                             allEpisodeList,
                             index + latestEpisodes.length
                           );
-                        }}
-                      >
-                        <img
-                          src="/play-green.svg"
-                          alt="Tocar episódio"
-                          title="Tocar episódio"
-                        />
-                      </button>
-                    )}
+                        }
+                      }}
+                    />
                   </td>
                 </tr>
               );
