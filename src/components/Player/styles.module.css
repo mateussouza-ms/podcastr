@@ -1,7 +1,8 @@
 .playerContainer {
-  padding: 1.5rem 2rem 2rem;
-
+  padding: 1.5rem 1.5rem 2rem;
   height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
   width: 22rem;
   background: var(--purple-500);
   color: var(--white);
@@ -34,7 +35,7 @@
 
 .currentEpisode img {
   border-radius: 1.5rem;
-  height: 15rem;
+  height: 12rem;
 }
 
 .currentEpisode strong {
