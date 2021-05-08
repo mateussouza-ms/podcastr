@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,11 +39,50 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
   } = usePlayer();
   const allEpisodeList = [...latestEpisodes, ...allEpisodes];
   const currentEpisode = episodeList[currentEpisodeIndex];
+  const [baseUrl, setBaseUrl] = useState("");
+
+  useEffect(() => {
+    setBaseUrl(document.baseURI);
+  }, []);
 
   return (
     <div className={styles.homepage}>
       <Head>
         <title>Home | Podcastr</title>
+        <meta
+          name="description"
+          content="Ouça os episódios do seu podcast favorito!"
+        />
+        <meta name="image" content={baseUrl + "logo.png"} />
+        <meta property="og:url" content={baseUrl} />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="Podcastr | O melhor para você ouvir, sempre."
+        />
+        <meta
+          property="og:description"
+          content="Ouça os episódios do seu podcast favorito!"
+        />
+        <meta property="og:locale" content="pt_BR" />
+
+        <meta property="og:image" content={baseUrl + "logo.png"} />
+        <meta property="og:image:secure_url" content={baseUrl + "logo.png"} />
+        <meta property="og:image:alt" content="Podcastr Logo" />
+        <meta property="og:image:type" content="image/svg+xml" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+
+        <meta
+          name="twitter:title"
+          content="Podcastr | O melhor para você ouvir, sempre."
+        />
+        <meta name="twitter:image" content={baseUrl + "logo.png"} />
+        <meta name="twitter:image:src" content={baseUrl + "logo.png"} />
+        <meta name="twitter:image:alt" content="Podcastr Logo" />
+        <meta name="twitter:image:width" content="1200" />
+        <meta name="twitter:image:height" content="630" />
       </Head>
 
       <section className={styles.latestEpisodes}>
