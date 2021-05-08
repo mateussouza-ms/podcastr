@@ -21,5 +21,5 @@ A imagem abaixo ilustra a aplicação com seus principais componentes.
 <img width="100%" src="https://user-images.githubusercontent.com/63478857/117522144-12c14080-af88-11eb-85f3-38d86f2c0e9f.JPG"></img>
 <br/> <br/> 
 ## 🌐 Deploy
-A aplicação foi publicada na Vercel. Você pode visualizá-la através do link https://podcastr-mateussouza.vercel.app.
+A aplicação foi publicada na Vercel. Você pode visualizá-la através do link https://podcastr-ms.vercel.app.
 
