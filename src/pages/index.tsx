@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,8 +9,9 @@ import ptBR from "date-fns/locale/pt-BR";
 
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
-import { usePlayer } from "../contexts/PlayerContext";
 import { EpisodeButton } from "../components/EpisodeButton";
+import { RootState, AppDispatch } from "../store/store";
+import { playerActions } from "../store/player/playerSlice";
 
 import styles from "../styles/home.module.css";
 
@@ -30,16 +32,15 @@ interface HomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const {
-    playList,
-    isPlaying,
-    episodeList,
-    currentEpisodeIndex,
-    setPlayingState,
-  } = usePlayer();
   const allEpisodeList = [...latestEpisodes, ...allEpisodes];
-  const currentEpisode = episodeList[currentEpisodeIndex];
   const [baseUrl, setBaseUrl] = useState("");
+  const { episodeList, currentEpisodeIndex, isPlaying } = useSelector(
+    (state: RootState) => state.player
+  );
+
+  const currentEpisode = episodeList[currentEpisodeIndex];
+
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     setBaseUrl(document.baseURI);
@@ -113,9 +114,15 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   episodeId={episode.id}
                   onClick={() => {
                     if (isPlaying && currentEpisode.id === episode.id) {
-                      setPlayingState(false);
+                      dispatch(playerActions.pause());
                     } else {
-                      playList(allEpisodeList, index);
+                      dispatch(
+                        playerActions.playList({
+                          episodeList: allEpisodeList,
+                          index: index,
+                          isPlaying: true,
+                        })
+                      );
                     }
                   }}
                 />
@@ -174,11 +181,14 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                       episodeId={episode.id}
                       onClick={() => {
                         if (isPlaying && currentEpisode.id === episode.id) {
-                          setPlayingState(false);
+                          dispatch(playerActions.pause());
                         } else {
-                          playList(
-                            allEpisodeList,
-                            index + latestEpisodes.length
+                          dispatch(
+                            playerActions.playList({
+                              episodeList: allEpisodeList,
+                              index: index + latestEpisodes.length,
+                              isPlaying: true,
+                            })
                           );
                         }
                       }}

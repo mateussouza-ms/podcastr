@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from "react-redux";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,8 +7,9 @@ import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
 import { api } from "../../services/api";
-import { usePlayer } from "../../contexts/PlayerContext";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+import { RootState } from "../../store/store";
+import { playerActions } from "../../store/player/playerSlice";
 
 import styles from "./styles.module.css";
 
@@ -28,14 +30,29 @@ interface EpisodeProps {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
-  const {
-    play,
-    setPlayingState,
-    isPlaying,
-    episodeList,
-    currentEpisodeIndex,
-  } = usePlayer();
+  const { isPlaying, episodeList, currentEpisodeIndex } = useSelector(
+    (state: RootState) => state.player
+  );
+
+  const dispatch = useDispatch();
+
   const currentEpisode = episodeList[currentEpisodeIndex];
+
+  function handlePause() {
+    if (isPlaying) {
+      dispatch(playerActions.pause());
+    }
+  }
+
+  function handlePlayEpisode(episode: Episode) {
+    dispatch(
+      playerActions.playList({
+        episodeList: [episode],
+        index: 0,
+        isPlaying: true,
+      })
+    );
+  }
 
   return (
     <div className={styles.episodeContainer}>
@@ -64,9 +81,7 @@ export default function Episode({ episode }: EpisodeProps) {
             <button
               type="button"
               className={styles.pauseButton}
-              onClick={() => {
-                setPlayingState(false);
-              }}
+              onClick={handlePause}
             >
               <img
                 src="/pause.svg"
@@ -75,12 +90,7 @@ export default function Episode({ episode }: EpisodeProps) {
               />
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                play(episode);
-              }}
-            >
+            <button type="button" onClick={() => handlePlayEpisode(episode)}>
               <img
                 src="/play.svg"
                 alt="Tocar episódio"

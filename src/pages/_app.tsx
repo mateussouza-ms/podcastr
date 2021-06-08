@@ -1,13 +1,16 @@
-import { PlayerContextProvider } from "../contexts/PlayerContext";
+import { Provider } from "react-redux";
+
 import { Header } from "../components/Header";
 import { Player } from "../components/Player";
+
+import { store } from "../store/store";
 
 import "../styles/global.css";
 import styles from "../styles/app.module.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <PlayerContextProvider>
+    <Provider store={store}>
       <div className={styles.appWrapper}>
         <main>
           <Header />
@@ -15,7 +18,7 @@ function MyApp({ Component, pageProps }) {
         </main>
         <Player />
       </div>
-    </PlayerContextProvider>
+    </Provider>
   );
 }
 

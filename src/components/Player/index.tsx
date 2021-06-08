@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import Slider from "rc-slider";
 
-import { usePlayer } from "../../contexts/PlayerContext";
+import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
+import { playerActions } from "../../store/player/playerSlice";
+import { RootState } from "../../store/store";
 
 import styles from "./styles.module.css";
 import "rc-slider/assets/index.css";
-import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 
 export function Player() {
   const {
@@ -15,16 +17,11 @@ export function Player() {
     isPlaying,
     isLooping,
     isShuffling,
-    togglePlay,
-    toggleLoop,
-    toggleShuffle,
     hasPrevious,
     hasNext,
-    playPrevious,
-    playNext,
-    setPlayingState,
-  } = usePlayer();
+  } = useSelector((state: RootState) => state.player);
 
+  const dispatch = useDispatch();
   const episode = episodeList[currentEpisodeIndex];
   const audioRef = useRef<HTMLAudioElement>(null);
   const [progress, setProgress] = useState(0);
@@ -40,7 +37,7 @@ export function Player() {
     } else {
       audioRef.current.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, currentEpisodeIndex]);
 
   function setupProgressListerner() {
     audioRef.current.currentTime = 0;
@@ -50,14 +47,49 @@ export function Player() {
     });
   }
 
+  function handlePlay() {
+    if (!isPlaying) {
+      dispatch(playerActions.play());
+    }
+  }
+
+  function handlePause() {
+    if (audioRef.current.ended) {
+      return;
+    }
+
+    if (isPlaying) {
+      dispatch(playerActions.pause());
+    }
+  }
+
+  function handleShuffle() {
+    dispatch(playerActions.toggleShuffle());
+  }
+
+  function handlePlayPrevious() {
+    dispatch(playerActions.playPrevious());
+  }
+
+  function handlePlayNext() {
+    dispatch(playerActions.playNext(episodeList.length));
+  }
+
   function handleSeek(amount: number) {
     audioRef.current.currentTime = amount;
-
     setProgress(amount);
   }
 
+  function handleTogglePlay() {
+    dispatch(playerActions.togglePlay());
+  }
+
+  function handleToggleLoop() {
+    dispatch(playerActions.toggleLoop());
+  }
+
   function handleAudioEnded() {
-    playNext();
+    dispatch(playerActions.playNext(episodeList.length));
   }
 
   function togglePlayerCollapse() {
@@ -132,10 +164,9 @@ export function Player() {
             ref={audioRef}
             loop={isLooping}
             onEnded={handleAudioEnded}
-            autoPlay
             onLoadedMetadata={setupProgressListerner}
-            onPlay={() => setPlayingState(true)}
-            onPause={() => setPlayingState(false)}
+            onPlay={handlePlay}
+            onPause={handlePause}
           />
         )}
 
@@ -144,7 +175,7 @@ export function Player() {
             type="button"
             title="Ordem aleatória"
             disabled={!episode || episodeList.length === 1}
-            onClick={toggleShuffle}
+            onClick={handleShuffle}
             className={isShuffling ? styles.isActive : ""}
           >
             <img src="/shuffle.svg" alt="Embaralhar" />
@@ -154,7 +185,7 @@ export function Player() {
             type="button"
             title="Pular para anterior"
             disabled={!episode || !hasPrevious}
-            onClick={playPrevious}
+            onClick={handlePlayPrevious}
           >
             <img src="/play-previous.svg" alt="Pular para anterior" />
           </button>
@@ -164,7 +195,7 @@ export function Player() {
             className={styles.playButton}
             title="Tocar/Pausar"
             disabled={!episode}
-            onClick={togglePlay}
+            onClick={handleTogglePlay}
           >
             {isPlaying ? (
               <img src="/pause.svg" alt="Tocar" />
@@ -177,7 +208,7 @@ export function Player() {
             type="button"
             title="Pular para próximo"
             disabled={!episode || !hasNext}
-            onClick={playNext}
+            onClick={handlePlayNext}
           >
             <img src="/play-next.svg" alt="Pular para próximo" />
           </button>
@@ -186,7 +217,7 @@ export function Player() {
             type="button"
             title="Repetir"
             disabled={!episode}
-            onClick={toggleLoop}
+            onClick={handleToggleLoop}
             className={isLooping ? styles.isActive : ""}
           >
             <img src="/repeat.svg" alt="Repetir" />

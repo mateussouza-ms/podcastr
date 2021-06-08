@@ -1,4 +1,6 @@
-import { usePlayer } from "../../contexts/PlayerContext";
+import { useSelector } from "react-redux";
+
+import { RootState } from "../../store/store";
 
 import styles from "./styles.module.css";
 
@@ -8,7 +10,9 @@ interface EpisodeButtonProps {
 }
 
 export function EpisodeButton({ onClick, episodeId }: EpisodeButtonProps) {
-  const { isPlaying, currentEpisodeIndex, episodeList } = usePlayer();
+  const { isPlaying, currentEpisodeIndex, episodeList } = useSelector(
+    (state: RootState) => state.player
+  );
   const currentEpisode = episodeList[currentEpisodeIndex];
 
   return (
