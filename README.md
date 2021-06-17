@@ -12,9 +12,12 @@ Foi desenvolvida uma aplicação web com ReactJS e Next.js, utilizando conceitos
 ![TypeScript](https://img.shields.io/badge/TypeScript-4.2.4-green)
 ![ContextAPI](https://img.shields.io/badge/Context_API-17.0.2-green)
 ![JSONServer](https://img.shields.io/badge/JSON_Server-0.16.3-green)
+![Redux](https://img.shields.io/badge/Redux-4.1.0-green)
 <br/> <br/> 
 ## :arrow_upper_right: Evoluções e aprimoramentos
 Para evolução da aplicação e aprimoramento dos conhecimentos, foram desenvolvidas funcionalidades além do que foi desenvolvido na Next Level Week, como deixar a aplicação responsiva para diferentes tipos de dispositivos e tamanhos de telas e refatoração do código criando novo componente.
+### Redux
+Também foi feita uma evolução da aplicação para utilizar o Redux para gerenciamento dos estados compartilhados. A versão da aplicação com esta evolução está disponível na branch <a href="https://github.com/mateussouza-ms/podcastr/tree/use-redux">use-redux</a>.
 <br/> <br/> 
 ## :pager: Design da aplicação
 A imagem abaixo ilustra a aplicação com seus principais componentes.
